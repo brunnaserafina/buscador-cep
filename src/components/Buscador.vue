@@ -72,10 +72,7 @@ const handleKeydown = (event) => {
   </section>
 
   <section class="resultados mt-4">
-    <DataTable
-      :value="loading ? [{}] : enderecos"
-      tableStyle="min-width: 50rem"
-    >
+    <DataTable :value="loading ? [{}] : enderecos">
       <Column
         v-for="col of COLUMNS"
         :key="col.field"
@@ -122,6 +119,7 @@ const handleKeydown = (event) => {
 
 .p-datatable-wrapper {
   font-family: "Poppins", serif !important;
+  min-width: 40rem;
 
   .p-datatable-thead {
     border-radius: 0.5rem 0px 0px 0.5rem !important;
@@ -152,6 +150,32 @@ const handleKeydown = (event) => {
 
     & > tr:last-child > td:last-child {
       border-bottom-right-radius: 0.5rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .p-datatable-wrapper {
+    min-width: 0;
+
+    .p-datatable-thead {
+      font-size: 14px;
+    }
+
+    .p-datatable-tbody {
+      font-size: 13px;
+    }
+
+    .p-datatable-thead {
+      & > tr > th {
+        padding: 0.5rem 0.5rem;
+      }
+    }
+
+    .p-datatable-tbody {
+      & > tr > td {
+        padding: 0.5rem 0.5rem;
+      }
     }
   }
 }
