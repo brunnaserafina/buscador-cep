@@ -9,7 +9,7 @@ import Column from "primevue/column";
 import Skeleton from "primevue/skeleton";
 
 const cep = ref(null);
-const ENDERECOS = ref([]);
+const enderecos = ref([]);
 const loading = ref(false);
 
 const COLUMNS = [
@@ -28,16 +28,20 @@ async function buscarCEP() {
   loading.value = true;
   try {
     const response = await getEndereco(cep.value);
-    if (response.erro) {
-      return (ENDERECOS.value = []);
-    }
-    ENDERECOS.value = [response];
+    enderecos.value = response.erro ? [] : [response];
   } catch (error) {
     console.error(error);
+    enderecos.value = [];
   } finally {
     loading.value = false;
   }
 }
+
+const handleKeydown = (event) => {
+  if (event.key === "Enter" && cepValido.value) {
+    buscarCEP();
+  }
+};
 </script>
 
 <template>
@@ -50,12 +54,7 @@ async function buscarCEP() {
         mask="99999-999"
         autofocus
         unmask
-        :pt="{
-          root: {
-            onKeydown: (event) =>
-              event.key === 'Enter' && cepValido && buscarCEP(),
-          },
-        }"
+        :pt="{ root: { onKeydown: handleKeydown } }"
       />
     </div>
 
@@ -72,9 +71,9 @@ async function buscarCEP() {
     </Button>
   </section>
 
-  <section class="resultados mt-5">
+  <section class="resultados mt-4">
     <DataTable
-      :value="loading ? [{}] : ENDERECOS"
+      :value="loading ? [{}] : enderecos"
       tableStyle="min-width: 50rem"
     >
       <Column
