@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from "vue";
-import { getEndereco } from "../services/BuscaEndereco";
+import { getEndereco } from "../services/buscaEndereco";
 
 import InputMask from "primevue/inputmask";
 import Button from "primevue/button";
