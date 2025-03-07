@@ -11,6 +11,7 @@ import Skeleton from "primevue/skeleton";
 const cep = ref(null);
 const enderecos = ref([]);
 const loading = ref(false);
+const buscaRealizada = ref(false);
 
 const COLUMNS = [
   { header: "Logradouro", field: "logradouro" },
@@ -25,7 +26,10 @@ const cepValido = computed(() => {
 });
 
 async function buscarCEP() {
+  if (!cepValido.value) return;
+
   loading.value = true;
+  buscaRealizada.value = true;
   try {
     const response = await getEndereco(cep.value);
     enderecos.value = response.erro ? [] : [response];
@@ -88,7 +92,7 @@ const handleKeydown = (event) => {
       <template #empty>
         <div class="d-flex justify-content-center">
           {{
-            cep
+            buscaRealizada
               ? "Nenhum endereço encontrado para este CEP."
               : "Digite um CEP e clique em buscar."
           }}
